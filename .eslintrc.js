@@ -9,5 +9,9 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
+        '@typescript-eslint/no-unused-vars': [
+            'error',
+            { 'argsIgnorePattern': '^_' }
+        ]
     },
 };

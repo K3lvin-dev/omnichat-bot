@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiError } from '@/errors/ApiError'; // 1. Importar a nossa classe
+import { ApiError } from '@/errors/ApiError';
 
 export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) => {
   console.error('Erro capturado pelo Middleware:', err.stack);
   if (err instanceof ApiError) {
