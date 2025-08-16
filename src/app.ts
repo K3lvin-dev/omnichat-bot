@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { router } from '@/routes';
-import { errorHandler } from '@/middlewares/errorHandler'; // 1. Importar o nosso handler
+import { errorHandler } from '@/middlewares/errorHandler';
 
 dotenv.config();
 
@@ -14,5 +14,5 @@ app.use('/api', router);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });

@@ -27,9 +27,9 @@ export const getMovieCast = async (movieId: number): Promise<CastMember[]> => {
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       const statusCode = error.response.status;
-      const message = error.response.data?.status_message || 'Erro ao comunicar com a API de filmes';
+      const message = error.response.data?.status_message || 'Error communicating with the movie API';
       throw new ApiError(message, statusCode);
     }
-    throw new ApiError('Erro inesperado ao buscar elenco do filme', 500);
+    throw new ApiError('Unexpected error fetching movie cast', 500);
   }
 };

@@ -17,6 +17,6 @@ export const errorHandler = (
 
   return res.status(500).json({
     status: 'error',
-    message: 'Ocorreu um erro inesperado no servidor.',
+    message: 'An unexpected server error occurred.',
   });
 };

@@ -1,4 +1,4 @@
-# ----- Estágio 1: Builder -----
+# ----- Stage 1: Builder -----
 FROM node:20 AS builder
 WORKDIR /usr/src/app
 COPY package*.json ./
@@ -7,7 +7,7 @@ COPY . .
 RUN npm run lint
 RUN npm run build
 
-# ----- Estágio 2: Production -----
+# ----- Stage 2: Production -----
 FROM node:20-alpine
 WORKDIR /usr/src/app
 COPY package*.json ./
@@ -15,5 +15,5 @@ RUN npm install --only=production
 COPY --from=builder /usr/src/app/dist ./dist
 EXPOSE 3000
 
-# Comando final para iniciar o servidor
+# Final command to start the server
 CMD [ "node", "dist/app.js" ]

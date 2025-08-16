@@ -9,7 +9,7 @@ export const validateNumericId = (
   const { id } = req.params;
 
   if (isNaN(parseInt(id, 10))) {
-    return next(new ApiError('O ID na URL deve ser um número', 400));
+    return next(new ApiError('The ID in the URL must be a number', 400));
   }
 
   next();
