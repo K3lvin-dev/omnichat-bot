@@ -1,6 +1,7 @@
 import axios, { isAxiosError } from 'axios';
 import dotenv from 'dotenv';
 import { CastMember, MovieCreditsResponse } from '../types/Movie';
+import { ApiError } from '../errors/ApiError';
 
 dotenv.config();
 
@@ -12,24 +13,23 @@ const tmdbApi = axios.create({
   },
 });
 
-export const getMovieCast = async (
-  movieId: number,
-): Promise<CastMember[] | null> => {
+export const getMovieCast = async (movieId: number): Promise<CastMember[]> => {
   try {
     const response = await tmdbApi.get<MovieCreditsResponse>(
       `/movie/${movieId}/credits`,
     );
 
+    if (response.data.cast.length === 0) {
+      throw new ApiError('Elenco não encontrado para este filme', 404);
+    }
+
     return response.data.cast;
   } catch (error) {
-    if (isAxiosError(error)) {
-      console.error(
-        'Erro do Axios ao buscar elenco do filme:',
-        error.response?.data,
-      );
-    } else {
-      console.error('Erro inesperado ao buscar elenco do filme:', error);
+    if (isAxiosError(error) && error.response) {
+      const statusCode = error.response.status;
+      const message = error.response.data?.status_message || 'Erro ao comunicar com a API de filmes';
+      throw new ApiError(message, statusCode);
     }
-    return null;
+    throw new ApiError('Erro inesperado ao buscar elenco do filme', 500);
   }
 };
