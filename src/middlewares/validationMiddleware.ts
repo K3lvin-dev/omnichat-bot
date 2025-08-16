@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiError } from '../errors/ApiError';
+import { ApiError } from '@/errors/ApiError';
 
 export const validateNumericId = (
   req: Request,

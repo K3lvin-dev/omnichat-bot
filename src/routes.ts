@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import {
   getMovieCastController,
-} from './controllers/MovieController';
-import { validateNumericId } from './middlewares/validationMiddleware'; 
+} from '@/controllers/MovieController';
+import { validateNumericId } from '@/middlewares/validationMiddleware'; 
 
 const router = Router();
 

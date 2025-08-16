@@ -1,7 +1,7 @@
 import axios, { isAxiosError } from 'axios';
 import dotenv from 'dotenv';
-import { CastMember, MovieCreditsResponse } from '../types/Movie';
-import { ApiError } from '../errors/ApiError';
+import { CastMember, MovieCreditsResponse } from '@/types/Movie';
+import { ApiError } from '@/errors/ApiError';
 
 dotenv.config();
 

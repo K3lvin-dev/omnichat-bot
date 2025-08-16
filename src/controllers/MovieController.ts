@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { CastMember } from '../types/Movie';
-import { getMovieCast } from '../services/MovieService';
+import { CastMember } from '@/types/Movie';
+import { getMovieCast } from '@/services/MovieService';
 
 export const getMovieCastController = async (
   req: Request,

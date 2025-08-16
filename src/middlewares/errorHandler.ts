@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiError } from '../errors/ApiError'; // 1. Importar a nossa classe
+import { ApiError } from '@/errors/ApiError'; // 1. Importar a nossa classe
 
 export const errorHandler = (
   err: Error,
