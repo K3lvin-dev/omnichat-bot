@@ -5,6 +5,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run lint
+RUN npm test
 RUN npm run build
 
 # ----- Stage 2: Production -----
@@ -16,4 +17,4 @@ COPY --from=builder /usr/src/app/dist ./dist
 EXPOSE 3000
 
 # Final command to start the server
-CMD [ "node", "dist/app.js" ]
+CMD [ "npm", "start" ]
