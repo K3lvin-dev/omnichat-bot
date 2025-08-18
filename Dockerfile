@@ -14,6 +14,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install --only=production
 COPY --from=builder /usr/src/app/dist ./dist
+RUN ls -l /usr/src/app/dist
 EXPOSE 3000
 
 # Final command to start the server
