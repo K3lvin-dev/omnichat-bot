@@ -3,20 +3,24 @@
   "version": "1.0.0",
   "description": "A cinema expert chatbot powered by Node.js, TypeScript, and a Large Language Model to answer all your movie-related questions.",
   "main": "index.js",
-"scripts": {
-  "build": "tsc",
-  "start": "node dist/app.js",
-  "dev": "nodemon --watch 'src/**/*.ts' --exec 'tsc && node dist/app.js'",
-  "lint": "eslint . --ext .ts",
-  "format": "prettier --write 'src/**/*.ts'"
-},
+  "scripts": {
+    "build": "tsc",
+    "start": "node -r tsconfig-paths/register dist/app.js",
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/app.ts",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write 'src/**/*.ts'"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@langchain/core": "^0.3.71",
+    "@langchain/openai": "^0.6.7",
     "axios": "^1.11.0",
     "dotenv": "^17.2.1",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "langchain": "^0.3.30"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
@@ -28,6 +32,10 @@
     "eslint-plugin-prettier": "^5.5.4",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
-    "typescript": "^5.9.2"
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.1"
   }
 }
