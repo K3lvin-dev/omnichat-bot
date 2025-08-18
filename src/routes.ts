@@ -3,8 +3,8 @@ import { chatbotController } from '@/controllers/ChatbotController';
 
 const router = Router();
 
-router.post('/chatbot', chatbotController);
+import { guardrailsMiddleware } from '@/middlewares/guardrailsMiddleware';
 
-
+router.post('/chatbot', chatbotController, guardrailsMiddleware);
 
 export { router };

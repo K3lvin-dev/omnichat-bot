@@ -1,5 +1,4 @@
 import { DynamicTool, Tool } from '@langchain/core/tools';
-
 import {
   getPopularMovies,
   searchMovieByName,
@@ -9,6 +8,17 @@ import {
   getMovieGenres,
   getMoviesByGenre,
 } from '@/services/MovieService';
+import { ApiError } from '@/errors/ApiError';
+
+const handleToolError = (error: unknown, toolName: string): string => {
+  if (error instanceof ApiError) {
+    return `Erro na ferramenta ${toolName}: ${error.message} (Status: ${error.statusCode})`;
+  } else if (error instanceof Error) {
+    return `Erro na ferramenta ${toolName}: ${error.message}`;
+  } else {
+    return `Erro desconhecido na ferramenta ${toolName}: ${String(error)}`;
+  }
+};
 
 export const movieTools: Tool[] = [
   new DynamicTool({
@@ -18,7 +28,6 @@ export const movieTools: Tool[] = [
     func: async () => {
       try {
         const movies = await getPopularMovies();
-        // Retorna um resumo em string dos 5 filmes mais populares.
         return JSON.stringify(
           movies
             .slice(0, 5)
@@ -29,13 +38,7 @@ export const movieTools: Tool[] = [
             })),
         );
       } catch (error: unknown) {
-        let errorMessage = 'Erro ao buscar filmes populares.';
-        if (error instanceof Error) {
-          errorMessage = `Erro ao buscar filmes populares: ${error.message}`;
-        } else {
-          errorMessage = `Erro ao buscar filmes populares: ${String(error)}`;
-        }
-        return errorMessage;
+        return handleToolError(error, 'getPopularMovies');
       }
     },
   }),
@@ -54,13 +57,7 @@ export const movieTools: Tool[] = [
           })),
         );
       } catch (error: unknown) {
-        let errorMessage = 'Erro ao pesquisar filme.';
-        if (error instanceof Error) {
-          errorMessage = `Erro ao pesquisar filme: ${error.message}`;
-        } else {
-          errorMessage = `Erro ao pesquisar filme: ${String(error)}`;
-        }
-        return errorMessage;
+        return handleToolError(error, 'searchMovieByName');
       }
     },
   }),
@@ -78,13 +75,7 @@ export const movieTools: Tool[] = [
           })),
         );
       } catch (error: unknown) {
-        let errorMessage = 'Erro ao buscar elenco do filme.';
-        if (error instanceof Error) {
-          errorMessage = `Erro ao buscar elenco do filme: ${error.message}`;
-        } else {
-          errorMessage = `Erro ao buscar elenco do filme: ${String(error)}`;
-        }
-        return errorMessage;
+        return handleToolError(error, 'getMovieCast');
       }
     },
   }),
@@ -105,13 +96,7 @@ export const movieTools: Tool[] = [
           runtime: details.runtime,
         });
       } catch (error: unknown) {
-        let errorMessage = 'Erro ao buscar detalhes do filme.';
-        if (error instanceof Error) {
-          errorMessage = `Erro ao buscar detalhes do filme: ${error.message}`;
-        } else {
-          errorMessage = `Erro ao buscar detalhes do filme: ${String(error)}`;
-        }
-        return errorMessage;
+        return handleToolError(error, 'getMovieDetails');
       }
     },
   }),
@@ -130,13 +115,7 @@ export const movieTools: Tool[] = [
           })),
         );
       } catch (error: unknown) {
-        let errorMessage = 'Erro ao buscar filmes similares.';
-        if (error instanceof Error) {
-          errorMessage = `Erro ao buscar filmes similares: ${error.message}`;
-        } else {
-          errorMessage = `Erro ao buscar filmes similares: ${String(error)}`;
-        }
-        return errorMessage;
+        return handleToolError(error, 'getSimilarMovies');
       }
     },
   }),
@@ -164,13 +143,7 @@ export const movieTools: Tool[] = [
           })),
         );
       } catch (error: unknown) {
-        let errorMessage = 'Erro ao buscar filmes por gênero.';
-        if (error instanceof Error) {
-          errorMessage = `Erro ao buscar filmes por gênero: ${error.message}`;
-        } else {
-          errorMessage = `Erro ao buscar filmes por gênero: ${String(error)}`;
-        }
-        return errorMessage;
+        return handleToolError(error, 'getMoviesByGenre');
       }
     },
   }),

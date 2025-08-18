@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from 'axios';
+import axios from 'axios';
 import dotenv from 'dotenv';
 import {
   CastMember,
@@ -7,7 +7,7 @@ import {
   Movie,
   MovieDetails,
 } from '@/types/Movie';
-import { ApiError } from '@/errors/ApiError';
+import { ApiError, handleAxiosError } from '@/errors/ApiError';
 
 dotenv.config();
 
@@ -31,14 +31,7 @@ export const getMovieCast = async (movieId: number): Promise<CastMember[]> => {
 
     return response.data.cast;
   } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      const statusCode = error.response.status;
-      const message =
-        error.response.data?.status_message ||
-        'Error communicating with the movie API';
-      throw new ApiError(message, statusCode);
-    }
-    throw new ApiError('Unexpected error fetching movie cast', 500);
+    throw handleAxiosError(error, 'Error communicating with the movie API');
   }
 };
 
@@ -50,14 +43,7 @@ export const getPopularMovies = async (): Promise<Movie[]> => {
     }
     return response.data.results;
   } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      const statusCode = error.response.status;
-      const message =
-        error.response.data?.status_message ||
-        'Error communicating with the movie API';
-      throw new ApiError(message, statusCode);
-    }
-    throw new ApiError('Unexpected error fetching popular movies', 500);
+    throw handleAxiosError(error, 'Error communicating with the movie API');
   }
 };
 
@@ -75,14 +61,7 @@ export const searchMovieByName = async (query: string): Promise<Movie[]> => {
       return dateB - dateA;
     });
   } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      const statusCode = error.response.status;
-      const message =
-        error.response.data?.status_message ||
-        'Error communicating with the movie API';
-      throw new ApiError(message, statusCode);
-    }
-    throw new ApiError('Unexpected error searching for movie', 500);
+    throw handleAxiosError(error, 'Error communicating with the movie API');
   }
 };
 
@@ -93,14 +72,7 @@ export const getMovieDetails = async (
     const response = await tmdbApi.get<MovieDetails>(`/movie/${movieId}`);
     return response.data;
   } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      const statusCode = error.response.status;
-      const message =
-        error.response.data?.status_message ||
-        'Error communicating with the movie API';
-      throw new ApiError(message, statusCode);
-    }
-    throw new ApiError('Unexpected error fetching movie details', 500);
+    throw handleAxiosError(error, 'Error communicating with the movie API');
   }
 };
 
@@ -114,14 +86,7 @@ export const getSimilarMovies = async (movieId: number): Promise<Movie[]> => {
     }
     return response.data.results;
   } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      const statusCode = error.response.status;
-      const message =
-        error.response.data?.status_message ||
-        'Error communicating with the movie API';
-      throw new ApiError(message, statusCode);
-    }
-    throw new ApiError('Unexpected error fetching similar movies', 500);
+    throw handleAxiosError(error, 'Error communicating with the movie API');
   }
 };
 
@@ -136,14 +101,7 @@ export const getMovieGenres = async (): Promise<
     const response = await tmdbApi.get<GenreListResponse>('/genre/movie/list');
     return response.data.genres;
   } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      const statusCode = error.response.status;
-      const message =
-        error.response.data?.status_message ||
-        'Error communicating with the movie API';
-      throw new ApiError(message, statusCode);
-    }
-    throw new ApiError('Unexpected error fetching movie genres', 500);
+    throw handleAxiosError(error, 'Error communicating with the movie API');
   }
 };
 
@@ -159,13 +117,6 @@ export const getMoviesByGenre = async (genreId: number): Promise<Movie[]> => {
     }
     return response.data.results;
   } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      const statusCode = error.response.status;
-      const message =
-        error.response.data?.status_message ||
-        'Error communicating with the movie API';
-      throw new ApiError(message, statusCode);
-    }
-    throw new ApiError('Unexpected error fetching movies by genre', 500);
+    throw handleAxiosError(error, 'Error communicating with the movie API');
   }
 };

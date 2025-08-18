@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { CastMember, Movie } from '@/types/Movie';
 import { getMovieCast, getPopularMovies, searchMovieByName, getMovieDetails, getSimilarMovies, getMovieGenres, getMoviesByGenre } from '@/services/MovieService';
+import { ApiError } from '@/errors/ApiError';
 
 export const getMovieCastController = async (
   req: Request,
@@ -37,7 +38,7 @@ export const searchMovieByNameController = async (
   try {
     const { query } = req.query;
     if (!query || typeof query !== 'string') {
-      return res.status(400).json({ message: 'Query parameter is required' });
+      throw new ApiError('Query parameter is required', 400);
     }
     const movies: Movie[] = await searchMovieByName(query);
     return res.status(200).json(movies);
@@ -82,14 +83,14 @@ export const getMoviesByGenreController = async (
   try {
     const { genre } = req.query;
     if (!genre || typeof genre !== 'string') {
-      return res.status(400).json({ message: 'Genre query parameter is required' });
+      throw new ApiError('Genre query parameter is required', 400);
     }
 
     const genres = await getMovieGenres();
     const targetGenre = genres.find(g => g.name.toLowerCase() === genre.toLowerCase());
 
     if (!targetGenre) {
-      return res.status(404).json({ message: `Genre "${genre}" not found` });
+      throw new ApiError(`Genre "${genre}" not found`, 404);
     }
 
     const movies = await getMoviesByGenre(targetGenre.id);
