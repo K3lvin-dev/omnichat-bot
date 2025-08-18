@@ -22,11 +22,11 @@ const initializeExecutor = async () => {
 };
 
 // A função principal que lida com a consulta do chatbot.
-export const handleChatQuery = async (query: string): Promise<any> => {
+export const handleChatQuery = async (query: string): Promise<string> => {
   await initializeExecutor();
   try {
     console.log(`Executando agente com a consulta: ${query}`);
-    const result = await executor.run(query);
+    const result = await executor!.run(query);
     return result;
   } catch (e: unknown) {
     let errorMessage = 'Desculpe, ocorreu um erro ao processar sua solicitação.';
