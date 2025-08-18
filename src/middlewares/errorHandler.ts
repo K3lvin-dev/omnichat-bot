@@ -7,7 +7,7 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
-  console.error('Erro capturado pelo Middleware:', err.stack);
+  
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json({
       status: 'error',

@@ -18,7 +18,6 @@ export const movieTools: Tool[] = [
     func: async () => {
       try {
         const movies = await getPopularMovies();
-        // Retorna um resumo em string dos 5 filmes mais populares.
         return JSON.stringify(
           movies
             .slice(0, 5)

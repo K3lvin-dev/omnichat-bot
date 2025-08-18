@@ -15,9 +15,12 @@ export const chatbotController = async (
 
     const result = await handleChatQuery(query);
 
-    let cleanedResult = result.replace(/\n/g, ' ');    cleanedResult = cleanedResult.replace(/"/g, '');    cleanedResult = cleanedResult.replace(/\s+/g, ' ').trim();
+    let cleanedResult = result.replace(/\n/g, ' ');
+    cleanedResult = cleanedResult.replace(/"/g, '');
+    cleanedResult = cleanedResult.replace(/\s+/g, ' ').trim();
 
-    return res.status(200).json({ response: cleanedResult });
+    res.locals.llmResponse = cleanedResult;
+    next();
   } catch (error) {
     next(error);
   }
